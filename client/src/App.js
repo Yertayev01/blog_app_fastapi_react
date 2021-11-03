@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import Nav from "./components/Nav";
+import Nav from "./components/Nav/Nav";
 import Login from "./components/Login";
 
 function App() {
