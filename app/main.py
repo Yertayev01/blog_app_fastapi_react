@@ -13,6 +13,10 @@ models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
+# To run:
+# navigate to root folder
+# run `uvicorn app.main:app --reload`
+
 origins = ["http://localhost:3000"]
 
 app.add_middleware(

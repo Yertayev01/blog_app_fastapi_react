@@ -18,7 +18,7 @@ function App() {
   };
 
   return (
-    <main className="font-sans	min-h-screen border flex flex-col justify-center">
+    <main className="font-sans	min-h-screen flex flex-col justify-center">
       <Nav />
       <Login setUsers={setUsers} />
       {renderUserList()}
