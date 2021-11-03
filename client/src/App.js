@@ -1,12 +1,28 @@
+import React, { useState } from "react";
+
 import Nav from "./components/Nav";
 import Login from "./components/Login";
 
 function App() {
+  const [users, setUsers] = useState([]);
+
+  const renderUserList = () => {
+    return users.map((user) => {
+      return (
+        <>
+          <p>id: {user.id}</p>
+          <p>email: {user.email}</p>
+        </>
+      );
+    });
+  };
+
   return (
-    <div className="container font-sans	min-h-screen">
+    <main className="font-sans	min-h-screen border flex flex-col justify-center">
       <Nav />
-      <Login />
-    </div>
+      <Login setUsers={setUsers} />
+      {renderUserList()}
+    </main>
   );
 }
 

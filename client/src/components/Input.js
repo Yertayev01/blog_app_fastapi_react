@@ -3,7 +3,7 @@ const Input = ({ title, inputState, onChange, type }) => {
     <label className="flex flex-col text-green-600">
       {title}
       <input
-        className="border mb-2"
+        className="border border-green-100 mb-2 mt-1 px-2 shadow"
         value={inputState}
         onChange={onChange}
         type={type}
