@@ -6,11 +6,12 @@ const Login = ({ setUsers }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState(false);
   const modalRef = useRef();
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log("Submitted");
+    setLoading(true);
     fetch("http://127.0.0.1:8000/users")
       .then((res) => {
         if (res.ok) return res.json();
@@ -20,7 +21,10 @@ const Login = ({ setUsers }) => {
         setUsers([...data]);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -62,7 +66,7 @@ const Login = ({ setUsers }) => {
           type="password"
         />
         <button className="border p-1 w-24 rounded-md mt-2 bg-green-500 text-white shadow active:bg-green-700 active:shadow-none">
-          enter
+          {loading ? "..." : "enter"}
         </button>
       </form>
       <span
