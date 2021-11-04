@@ -14,12 +14,12 @@ const UserList = () => {
   }, []);
 
   return (
-    <div className="mt-10 p-20 border grid lg:grid-cols-2 gap-8">
+    <div className="mt-10 pt-20 p-5 lg:p-20 border grid lg:grid-cols-2 gap-8">
       {users.map((user) => {
         return (
           <div
             key={user.email}
-            className="bg-green-50 rounded-md border-l-2 shadow text-green-700 p-10 px-10 h-80 w-80"
+            className="bg-green-50 rounded-md border-l-2 shadow text-green-700 p-10 px-10 lg:h-80 lg:w-80"
           >
             <p>
               id: <span className="text-indigo-300">{user.id}</span>

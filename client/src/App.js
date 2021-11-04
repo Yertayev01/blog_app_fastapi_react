@@ -6,10 +6,11 @@ import UserList from "./components/UserList";
 
 function App() {
   return (
-    <div className="font-sans	min-h-screen flex flex-col md:flex-wrap md:flex-row justify-center">
+    <div className="font-sans	min-h-screen flex flex-col justify-center">
       <Nav />
 
       <Routes>
+        <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
         <Route path="/home" element={<UserList />} />
         <Route path="/about" element={<div>about</div>} />
