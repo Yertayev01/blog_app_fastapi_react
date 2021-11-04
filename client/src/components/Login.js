@@ -1,27 +1,23 @@
 import React, { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import Input from "./Input";
 import Modal from "./Modal";
 
-const Login = ({ setUsers }) => {
+const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const modalRef = useRef();
 
   const onSubmit = (e) => {
     e.preventDefault();
-    // console.log("Submitted");
-    // fetch("http://127.0.0.1:8000/users")
-    //   .then((res) => {
-    //     if (res.ok) return res.json();
-    //     throw res;
-    //   })
-    //   .then((data) => {
-    //     setUsers([...data]);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      navigate("/home");
+    }, 1000);
   };
 
   const loginModal = (
@@ -47,7 +43,7 @@ const Login = ({ setUsers }) => {
   return (
     <div className="flex items-center flex-col p-6 justify-center">
       <form
-        className="border border-green-400 border-opacity-60 rounded-lg px-16 py-12 h-72 flex flex-col items-center justify-center shadow-md"
+        className="border-l border-t border-green-400 border-opacity-40 rounded-lg px-16 py-12 lg:px-32 lg:py-24 flex flex-col items-center justify-center shadow-md"
         onSubmit={onSubmit}
       >
         <Input
@@ -62,7 +58,7 @@ const Login = ({ setUsers }) => {
           type="password"
         />
         <button className="border p-1 w-24 rounded-md mt-2 bg-green-500 text-white shadow active:bg-green-700 active:shadow-none">
-          enter
+          {loading ? "..." : "enter"}
         </button>
       </form>
       <span

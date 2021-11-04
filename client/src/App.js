@@ -1,28 +1,22 @@
-import React, { useState } from "react";
-
-import Nav from "./components/Nav";
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import Nav from "./components/Nav/Nav";
 import Login from "./components/Login";
+import UserList from "./components/UserList";
 
 function App() {
-  const [users, setUsers] = useState([]);
-
-  const renderUserList = () => {
-    return users.map((user) => {
-      return (
-        <>
-          <p>id: {user.id}</p>
-          <p>email: {user.email}</p>
-        </>
-      );
-    });
-  };
-
   return (
-    <main className="font-sans	min-h-screen border flex flex-col justify-center">
+    <div className="font-sans	min-h-screen flex flex-col justify-center">
       <Nav />
-      <Login setUsers={setUsers} />
-      {renderUserList()}
-    </main>
+
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/home" element={<UserList />} />
+        <Route path="/about" element={<div>about</div>} />
+        <Route path="/profile" element={<div>profile</div>} />
+      </Routes>
+    </div>
   );
 }
 
