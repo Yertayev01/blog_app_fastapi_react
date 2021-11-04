@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Portal from "./Portal";
-import { offClickHelper } from "../utils";
+import { offClickHelper } from "./utils/utils";
 
 const Modal = ({ children, modalRef, offClick }) => {
   useEffect(() => {

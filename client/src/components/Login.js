@@ -1,31 +1,23 @@
 import React, { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import Input from "./Input";
 import Modal from "./Modal";
 
-const Login = ({ setUsers }) => {
+const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const modalRef = useRef();
 
   const onSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
-    fetch("http://127.0.0.1:8000/users")
-      .then((res) => {
-        if (res.ok) return res.json();
-        throw res;
-      })
-      .then((data) => {
-        setUsers([...data]);
-      })
-      .catch((err) => {
-        // console.log(err);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    setTimeout(() => {
+      setLoading(false);
+      navigate("/home");
+    }, 1000);
   };
 
   const loginModal = (

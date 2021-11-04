@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import MobileNavDropdown from "./MobileMenuDropdown";
 
-const MobileNav = ({ items, className }) => {
+const MobileNav = ({ navLinks, className }) => {
   const [dropdownActive, setDropdownActive] = useState(false);
 
   const toggleDropdownActive = () => {
@@ -19,7 +19,10 @@ const MobileNav = ({ items, className }) => {
       ) : (
         <>
           <XIcon className="h-14 w-14 p-1 flex justify-center items-center text-white text-2xl cursor-pointer" />
-          <MobileNavDropdown items={items} offClick={toggleDropdownActive} />
+          <MobileNavDropdown
+            navLinks={navLinks}
+            offClick={toggleDropdownActive}
+          />
         </>
       )}
     </div>
