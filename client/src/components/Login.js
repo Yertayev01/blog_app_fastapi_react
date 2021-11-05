@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Input from "./Input";
 import Modal from "./Modal";
+import { easyFetch } from "./utils/easyFetch";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -14,10 +15,18 @@ const Login = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      navigate("/home");
-    }, 1000);
+    easyFetch
+      .post("http://127.0.0.1:8000/users", {
+        email: username,
+        password,
+      })
+      .then((data) => {
+        setLoading(false);
+        console.log(data);
+      })
+      .finally(() => {
+        navigate("/home");
+      });
   };
 
   const loginModal = (
