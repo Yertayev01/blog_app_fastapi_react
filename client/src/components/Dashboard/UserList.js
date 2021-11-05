@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { easyFetch } from "./utils/easyFetch";
+import { easyFetch } from "../../utils/easyFetch";
 
 const UserList = () => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
     const url = "http://127.0.0.1:8000/users";
-    easyFetch.get(url).then((data) => {
-      setUsers([...data]);
-    });
+    easyFetch
+      .get(url)
+      .then((data) => {
+        setUsers([...data]);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   return (

@@ -6,12 +6,10 @@ const MobileNav = ({ navLinks, className }) => {
   const [dropdownActive, setDropdownActive] = useState(false);
 
   const openDropdown = () => {
-    console.log("open");
     setDropdownActive(true);
   };
 
   const closeDropdown = () => {
-    console.log("close");
     setDropdownActive(false);
   };
 
