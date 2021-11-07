@@ -19,20 +19,12 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route
             path="/home"
-            element={
-              <RequireAuth>
-                <UserList />
-              </RequireAuth>
-            }
+            element={<RequireAuth children={<UserList />} />}
           />
           <Route path="/about" element={<div>about</div>} />
           <Route
             path="/profile"
-            element={
-              <RequireAuth>
-                <div>profile</div>
-              </RequireAuth>
-            }
+            element={<RequireAuth children={<div>profile</div>} />}
           />
         </Routes>
       </div>
