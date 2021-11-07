@@ -17,9 +17,6 @@ from .secret import SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES
 # TODO Set up Alembic
 models.Base.metadata.create_all(bind=engine)
 
-# To run:
-# navigate to root folder
-# run `uvicorn app.main:app --reload`
 app = FastAPI()
 
 origins = ["http://localhost:3000"]
