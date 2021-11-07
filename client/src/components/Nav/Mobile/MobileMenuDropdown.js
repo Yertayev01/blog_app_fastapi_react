@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { offClickHelper } from "../../utils/utils";
+import { offClickHelper } from "../../../utils/utils";
 
 const MobileNavDropdown = ({ navLinks, offClick }) => {
   const dropdownRef = useRef();
