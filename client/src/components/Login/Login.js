@@ -1,9 +1,9 @@
-import React, { useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import Input from "../Common/Input";
-import Modal from "../Common/Modal";
-import { easyFetch } from "../../utils/easyFetch";
 import { setToken } from "../../utils/auth";
+import LoginModal from "./LoginModal";
+import { useAuth } from "../Auth/AuthContext";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -12,7 +12,8 @@ const Login = () => {
   const [error, setError] = useState({});
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const modalRef = useRef();
+  const location = useLocation();
+  const auth = useAuth();
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -23,53 +24,23 @@ const Login = () => {
       return;
     }
     setLoading(true);
-    const formdata = `username=${username}&password=${password}`;
-    easyFetch
-      .post("http://127.0.0.1:8000/token", formdata, {
-        method: "POST",
-        headers: {
-          "Content-type": "application/x-www-form-urlencoded",
-        },
-      })
-      .then((data) => {
-        console.table(data);
-        setToken(data);
-        navigate("/home");
-      })
-      .catch((err) => {
-        setPassword("");
-        err.then((err) => {
-          if (err.detail) {
-            setError({
-              detail: err.detail,
-            });
-          }
-        });
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
 
-  const loginModal = (
-    <div
-      ref={modalRef}
-      className="h-1/3 w-4/5 flex justify-center items-center border rounded-lg bg-green-50 relative text-lg p-3"
-    >
-      <button
-        className="h-10 w-10 bg-white absolute top-0 right-0 rounded-md filter drop-shadow-sm"
-        onClick={() => {
-          setShowModal(false);
-        }}
-      >
-        X
-      </button>
-      <p className="text-center text-green-800">
-        Uhhh, I didn't actaully think anybody would click this ... So uhh, like,
-        how is your day going?
-      </p>
-    </div>
-  );
+    const handleData = (data) => {
+      setToken(data);
+      const from = location.state?.from?.pathname || "/home";
+      navigate(from, { replace: true });
+      setLoading(false);
+    };
+    const handleError = (error) => {
+      if (error.detail) {
+        setError({
+          detail: error.detail,
+        });
+      }
+      setLoading(false);
+    };
+    auth.signin({ username, password }, handleData, handleError);
+  };
 
   return (
     <div className="flex items-center flex-col p-6 justify-center">
@@ -103,17 +74,10 @@ const Login = () => {
       >
         Need help?
       </span>
-      {showModal ? (
-        <Modal
-          className={
-            "fixed z-50 w-screen h-screen flex items-center justify-center backdrop-filter backdrop-blur-sm top-0"
-          }
-          modalRef={modalRef}
-          offClick={() => setShowModal(false)}
-        >
-          {loginModal}
-        </Modal>
-      ) : null}
+      <LoginModal
+        showModal={showModal}
+        closeModal={() => setShowModal(false)}
+      />
     </div>
   );
 };

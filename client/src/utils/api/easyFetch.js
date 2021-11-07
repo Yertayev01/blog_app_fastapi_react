@@ -1,5 +1,6 @@
 class EasyFetch {
   constructor() {
+    this.urlBase = "http://127.0.0.1:8000";
     this.default = {
       method: "GET",
       headers: {
@@ -63,13 +64,16 @@ class EasyFetch {
     return this.run(url, init);
   }
 
-  async run(url, init) {
-    const res = await fetch(url, init);
-    if (!res.ok) throw res.json();
-    return res.json();
+  run(url, init) {
+    const f = fetch(this.urlBase + url, init);
+    return f.then((res) => {
+      if (!res.ok)
+        return res.json().then((e) => {
+          throw e;
+        });
+      return res.json();
+    });
   }
 }
 
-const easyFetch = new EasyFetch();
-
-module.exports = { easyFetch };
+export const easyFetch = new EasyFetch();

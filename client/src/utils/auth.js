@@ -1,14 +1,17 @@
-const getToken = () => {
-  const token = localStorage.getItem("token");
-  return JSON.parse(token);
+import Cookies from "js-cookie";
+
+export const getToken = () => {
+  return Cookies.get("access_token");
 };
 
-const setToken = async (token) => {
-  localStorage.setItem("token", JSON.stringify(token));
-  return;
+export const setToken = (token) => {
+  const expires = 60 * 60 * 1000;
+  const inOneHour = new Date(new Date().getTime() + expires);
+  Cookies.set("access_token", token.access_token, { expires: inOneHour });
 };
 
-module.exports = {
-  setToken,
-  getToken,
+export const removeToken = () => {
+  Cookies.remove("access_token");
 };
+
+export const isAuthenticated = () => !!getToken();
