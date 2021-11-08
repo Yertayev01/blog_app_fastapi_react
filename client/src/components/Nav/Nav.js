@@ -40,7 +40,7 @@ const Nav = () => {
 
   return (
     <nav className="fixed top-0 w-screen bg-green-500 h-20 flex items-center shadow-lg z-50">
-      <div className="px-4 text-white text-2xl">Dope Logo</div>
+      <div className="px-4 text-white text-2xl">wethinky</div>
       <div className="flex flex-grow justify-end items-center h-full">
         <MobileNav className={"lg:hidden"} navLinks={navLinks} />
         <Menu
