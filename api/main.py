@@ -15,7 +15,7 @@ import os
 load_dotenv()
 
 app = FastAPI()
-
+print(os.getenv("CLIENT_URL"))
 origins = ["http://localhost:3000"]
 
 app.add_middleware(
