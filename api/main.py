@@ -1,5 +1,5 @@
 from typing import List, Optional
-
+from dotenv import load_dotenv
 from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordRequestForm
@@ -10,12 +10,9 @@ from .database import SessionLocal, engine
 from .dependencies import get_db
 
 from datetime import datetime, timedelta
-from .secret import SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES
+import os
 
-# very simplistic way to create the tables
-# should use Alembic to create tables and handle migrations
-# TODO Set up Alembic
-models.Base.metadata.create_all(bind=engine)
+load_dotenv()
 
 app = FastAPI()
 
@@ -68,7 +65,7 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
             detail="Incorrect username or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token_expires = timedelta(minutes=int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES")))
     access_token = auth.create_access_token(
         data={"sub": user.email}, expires_delta=access_token_expires
     )

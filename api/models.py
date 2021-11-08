@@ -1,8 +1,15 @@
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
+from sqlalchemy.ext.declarative import declarative_base
 
-from .database import Base
+Base = declarative_base()
 
+# Migrate Databases with:
+# docker compose run api alembic revision --autogenerate -m "migration_name"
+# docker compose run api alembic upgrade head
+
+# Downgrade with:
+# docker compose run api alembic downgrade head
 
 class User(Base):
     __tablename__ = "users"
