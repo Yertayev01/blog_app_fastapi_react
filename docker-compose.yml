@@ -34,6 +34,12 @@ services:
     depends_on:
       - db
     restart: always
+    environment:
+      - DATABASE_URL
+      - SECRET_KEY
+      - ALGORITHM
+      - ACCESS_TOKEN_EXPIRE_MINUTES
+      - CLIENT_URL
 
   client:
     container_name: client
@@ -46,3 +52,5 @@ services:
     depends_on:
       - api
     restart: always
+    environment:
+      - REACT_APP_API_BASE_URL
