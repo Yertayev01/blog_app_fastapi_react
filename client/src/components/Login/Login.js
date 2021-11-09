@@ -25,13 +25,17 @@ const Login = () => {
     }
     setLoading(true);
 
+    console.log("Anything");
+
     const handleData = (data) => {
+      console.log(data);
       setToken(data);
       const from = location.state?.from?.pathname || "/home";
       navigate(from, { replace: true });
       setLoading(false);
     };
     const handleError = (error) => {
+      console.log(error);
       if (error.detail) {
         setError({
           detail: error.detail,

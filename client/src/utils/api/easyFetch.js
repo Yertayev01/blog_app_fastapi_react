@@ -1,6 +1,6 @@
 class EasyFetch {
   constructor() {
-    this.urlBase = "http://127.0.0.1:8000";
+    this.urlBase = process.env.REACT_APP_API_BASE_URL;
     this.default = {
       method: "GET",
       headers: {

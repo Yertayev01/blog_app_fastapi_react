@@ -12,7 +12,6 @@ from .dependencies import get_db
 from datetime import datetime, timedelta
 import os
 
-load_dotenv()
 
 app = FastAPI()
 
