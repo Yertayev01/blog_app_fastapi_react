@@ -23,8 +23,7 @@ class Item(ItemBase):
         orm_mode = True
 
 class UserBase(BaseModel):
-    email: str
-    # username: str
+    username: str
 
 class UserCreate(UserBase):
     password: str
