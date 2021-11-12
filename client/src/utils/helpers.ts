@@ -1,4 +1,9 @@
-const offClickHelper = (ref, offClick) => {
+import React from "react";
+
+export const offClickHelper = (
+  ref: React.MutableRefObject<HTMLElement>,
+  offClick: () => void
+) => {
   const listener = (event) => {
     if (!ref.current || ref.current.contains(event.target)) {
       return;
@@ -10,5 +15,3 @@ const offClickHelper = (ref, offClick) => {
     document.removeEventListener("mousedown", listener);
   };
 };
-
-module.exports = { offClickHelper };

@@ -5,11 +5,15 @@ import { setToken } from "../../utils/auth";
 import LoginModal from "./LoginModal";
 import { useAuth } from "../Auth/AuthContext";
 
+type loginError = {
+  detail: string | null;
+};
+
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [showModal, setShowModal] = useState(false);
-  const [error, setError] = useState({});
+  const [modalVisible, setModalVisible] = useState(false);
+  const [error, setError] = useState<loginError>({ detail: null });
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
@@ -25,17 +29,13 @@ const Login = () => {
     }
     setLoading(true);
 
-    console.log("Anything");
-
     const handleData = (data) => {
-      console.log(data);
       setToken(data);
       const from = location.state?.from?.pathname || "/home";
       navigate(from, { replace: true });
       setLoading(false);
     };
     const handleError = (error) => {
-      console.log(error);
       if (error.detail) {
         setError({
           detail: error.detail,
@@ -54,12 +54,12 @@ const Login = () => {
       >
         <Input
           inputState={username}
-          title={"username"}
+          title="username"
           onChange={(e) => setUsername(e.target.value)}
         />
         <Input
           inputState={password}
-          title={"password"}
+          title="password"
           onChange={(e) => setPassword(e.target.value)}
           type="password"
         />
@@ -74,13 +74,13 @@ const Login = () => {
       </form>
       <span
         className="mt-4 text-green-500 hover:text-green-800 cursor-pointer"
-        onClick={() => setShowModal(true)}
+        onClick={() => setModalVisible(true)}
       >
         Need help?
       </span>
       <LoginModal
-        showModal={showModal}
-        closeModal={() => setShowModal(false)}
+        modalVisible={modalVisible}
+        closeModal={() => setModalVisible(false)}
       />
     </div>
   );

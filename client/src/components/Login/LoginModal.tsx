@@ -1,11 +1,19 @@
 import React, { useRef } from "react";
 import Modal from "../Common/Modal";
 
-const LoginModal = ({ showModal, closeModal }) => {
+type LoginModalProps = {
+  modalVisible: boolean;
+  closeModal: () => void;
+};
+
+const LoginModal: React.FC<LoginModalProps> = ({
+  modalVisible,
+  closeModal,
+}) => {
   const modalRef = useRef();
   return (
     <>
-      {showModal ? (
+      {modalVisible ? (
         <Modal
           className={
             "fixed z-50 w-screen h-screen flex items-center justify-center backdrop-filter backdrop-blur-sm top-0"
