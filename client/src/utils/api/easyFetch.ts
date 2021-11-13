@@ -1,4 +1,17 @@
+type urlType = string;
+type bodyType = any;
+type initType =
+  | {
+      method?: string;
+      headers?: any;
+      body?: string | undefined;
+    }
+  | undefined;
+
 class EasyFetch {
+  readonly urlBase: string | undefined;
+  readonly default: initType;
+
   constructor() {
     this.urlBase = process.env.REACT_APP_API_BASE_URL;
     this.default = {
@@ -6,15 +19,15 @@ class EasyFetch {
       headers: {
         "Content-Type": "application/json",
       },
-      body: null,
+      body: undefined,
     };
   }
 
-  get(url, init = {}) {
+  get(url: urlType, init: initType = undefined) {
     return this.run(url, init);
   }
 
-  post(url, body, init = null) {
+  post(url: urlType, body: bodyType, init: initType = undefined) {
     if (!init) {
       init = {
         ...this.default,
@@ -31,7 +44,7 @@ class EasyFetch {
     return this.run(url, init);
   }
 
-  put(url, body, init = null) {
+  put(url: urlType, body: bodyType, init = {}) {
     if (!init) {
       init = {
         ...this.default,
@@ -47,7 +60,7 @@ class EasyFetch {
     return this.run(url, init);
   }
 
-  delete(url, body, init = {}) {
+  delete(url: urlType, body: bodyType, init = {}) {
     if (!init) {
       init = {
         ...this.default,
@@ -64,7 +77,8 @@ class EasyFetch {
     return this.run(url, init);
   }
 
-  run(url, init) {
+  run(url: urlType, init: initType = undefined) {
+    if (!init) init = this.default;
     const f = fetch(this.urlBase + url, init);
     return f.then((res) => {
       if (!res.ok)

@@ -6,10 +6,10 @@ const Portal: React.FC = ({ children }) => {
 
   useEffect(() => {
     const root = document.getElementById("root");
-    root.appendChild(container);
+    root?.appendChild(container);
 
     return () => {
-      root.removeChild(container);
+      root?.removeChild(container);
     };
   }, [container]);
 

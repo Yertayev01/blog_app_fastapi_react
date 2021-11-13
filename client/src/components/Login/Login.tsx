@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { FormEvent, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Input from "../Common/Input";
 import { setToken } from "../../utils/auth";
 import LoginModal from "./LoginModal";
 import { useAuth } from "../Auth/AuthContext";
+import { accessToken } from "../../types";
 
 type loginError = {
   detail: string | null;
@@ -19,7 +20,7 @@ const Login = () => {
   const location = useLocation();
   const auth = useAuth();
 
-  const onSubmit = (e) => {
+  const onSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (!username || !password) {
       setError({
@@ -29,13 +30,13 @@ const Login = () => {
     }
     setLoading(true);
 
-    const handleData = (data) => {
+    const handleData = (data: accessToken) => {
       setToken(data);
       const from = location.state?.from?.pathname || "/home";
       navigate(from, { replace: true });
       setLoading(false);
     };
-    const handleError = (error) => {
+    const handleError = (error: loginError) => {
       if (error.detail) {
         setError({
           detail: error.detail,

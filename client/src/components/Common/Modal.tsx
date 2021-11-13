@@ -4,7 +4,7 @@ import { offClickHelper } from "../../utils/helpers";
 
 type ModalProps = {
   className: string;
-  modalRef: React.MutableRefObject<undefined>;
+  modalRef: React.RefObject<HTMLDivElement>;
   offClick: () => void;
 };
 

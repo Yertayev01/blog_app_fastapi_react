@@ -1,7 +1,10 @@
+import { handleData, handleError, user } from "../../types";
 import { getToken } from "../auth";
 import { easyFetch } from "./easyFetch";
 
-export const getUsers = async (handleData, handleError) => {
+type fetchCall = (handleData: handleData, handleError: handleError) => any;
+
+export const getUsers: fetchCall = async (handleData, handleError) => {
   try {
     const data = await easyFetch.get("/users");
     handleData(data);
@@ -11,7 +14,7 @@ export const getUsers = async (handleData, handleError) => {
   }
 };
 
-export const fetchCurrentUser = async (handleData, handleError) => {
+export const fetchCurrentUser: fetchCall = async (handleData, handleError) => {
   const access_token = getToken();
 
   try {
@@ -29,7 +32,13 @@ export const fetchCurrentUser = async (handleData, handleError) => {
   }
 };
 
-export const loginUser = async (body, handleData, handleError) => {
+type loginFetch = (
+  body: user,
+  handleData: handleData,
+  handleError: handleError
+) => any;
+
+export const loginUser: loginFetch = async (body, handleData, handleError) => {
   const formData = `username=${body.username}&password=${body.password}`;
   try {
     const data = await easyFetch.post("/token", formData, {

@@ -10,7 +10,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
   modalVisible,
   closeModal,
 }) => {
-  const modalRef = useRef();
+  const modalRef = useRef<HTMLDivElement>(null);
   return (
     <>
       {modalVisible ? (
