@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 
-const Portal = ({ children }) => {
+const Portal: React.FC = ({ children }) => {
   const [container] = useState(() => document.createElement("div"));
 
   useEffect(() => {
     const root = document.getElementById("root");
-    root.appendChild(container);
+    root?.appendChild(container);
 
     return () => {
-      root.removeChild(container);
+      root?.removeChild(container);
     };
   }, [container]);
 

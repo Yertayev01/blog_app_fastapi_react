@@ -1,15 +1,30 @@
 import React, { useState, createContext, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { handleData, handleError, user } from "../../types";
 import { fetchCurrentUser, loginUser } from "../../utils/api/requests";
 import { removeToken } from "../../utils/auth";
 
-const AuthContext = createContext();
+type AuthContextType = {
+  user: any;
+  signin: (
+    newUser: user,
+    handleData: handleData,
+    handleError: handleError
+  ) => void;
+  signout: () => void;
+};
 
-export const AuthProvider = ({ children }) => {
+const AuthContext = createContext<AuthContextType>(null!);
+
+export const AuthProvider: React.FC = ({ children }) => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
-  const signin = async (newUser, handleData, handleError) => {
+  const signin = async (
+    newUser: user,
+    handleData: handleData,
+    handleError: handleError
+  ) => {
     await loginUser(newUser, handleData, handleError);
     await fetchCurrentUser(
       (user) => setUser({ ...user }),
