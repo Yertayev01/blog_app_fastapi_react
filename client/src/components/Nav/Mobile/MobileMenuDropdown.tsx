@@ -1,8 +1,17 @@
 import React, { useEffect, useRef } from "react";
+import { NavLinksType } from "../../../types";
 import { offClickHelper } from "../../../utils/helpers";
 
-const MobileNavDropdown = ({ navLinks, offClick }) => {
-  const dropdownRef = useRef();
+type MobileNavDropdownProps = {
+  navLinks: NavLinksType;
+  offClick: () => void;
+};
+
+const MobileNavDropdown: React.FC<MobileNavDropdownProps> = ({
+  navLinks,
+  offClick,
+}) => {
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
     const cleanup = offClickHelper(dropdownRef, offClick);

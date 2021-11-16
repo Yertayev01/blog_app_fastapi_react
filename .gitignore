@@ -1,1 +1,2 @@
-.env
+# Uncomment if you set sensitive env variables
+# .env
