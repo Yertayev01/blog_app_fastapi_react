@@ -1,8 +1,14 @@
 import React, { useState } from "react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import MobileNavDropdown from "./MobileMenuDropdown";
+import { NavLinksType } from "../../../types";
 
-const MobileNav = ({ navLinks, className }) => {
+type MobileNavProps = {
+  navLinks: NavLinksType;
+  className: string;
+};
+
+const MobileNav: React.FC<MobileNavProps> = ({ navLinks, className }) => {
   const [dropdownActive, setDropdownActive] = useState(false);
 
   const openDropdown = () => {

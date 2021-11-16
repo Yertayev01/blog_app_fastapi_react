@@ -8,3 +8,8 @@ export type user = {
 };
 
 export type accessToken = { access_token: string };
+
+export type NavLinksType = (
+  className: string,
+  onClick?: () => void
+) => JSX.Element[];

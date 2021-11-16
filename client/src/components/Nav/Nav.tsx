@@ -1,5 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { NavLinksType } from "../../types";
 import { useAuth } from "../Auth/AuthContext";
 import Menu from "./Menu";
 import MobileNav from "./Mobile/MobileNav";
@@ -7,33 +8,39 @@ import MobileNav from "./Mobile/MobileNav";
 const Nav = () => {
   const auth = useAuth();
 
-  const logoutButton = (className, onClick = () => {}) => {
-    const signOutAndClose = () => {
-      auth.signout();
-      onClick();
-    };
-
-    return (
-      <div key={"logout"} className={className} onClick={signOutAndClose}>
-        Logout
-      </div>
-    );
-  };
-
-  const navLinks = (className, onClick) => {
+  const navLinks: NavLinksType = (className, onClick = () => {}) => {
     const items = ["Home", "About", "Profile", "Login"];
     return items.map((item) => {
-      if (auth.user && item === "Login")
-        return logoutButton(className, onClick);
+      if (auth.user && item === "Login") {
+        const signOutAndClose = () => {
+          auth.signout();
+          onClick();
+        };
+
+        return (
+          <>
+            <NavLink
+              key={"logout"}
+              to={"/"}
+              className={className}
+              onClick={signOutAndClose}
+            >
+              Logout
+            </NavLink>
+          </>
+        );
+      }
       return (
-        <NavLink
-          key={item}
-          to={`/${item.toLowerCase()}`}
-          className={className}
-          onClick={onClick}
-        >
-          {item}
-        </NavLink>
+        <>
+          <NavLink
+            key={item}
+            to={`/${item.toLowerCase()}`}
+            className={className}
+            onClick={onClick}
+          >
+            {item}
+          </NavLink>
+        </>
       );
     });
   };
