@@ -4,12 +4,12 @@ from fastapi.param_functions import Depends
 from sqlalchemy.orm.session import Session
 
 from api import crud, schemas
-from api.dependencies import get_db
-from api import auth_dep
+from api.dependencies.db import get_db
+from api.dependencies.auth import oauth2_scheme
 
 router = APIRouter(
     prefix="/articles",
-    dependencies=[Depends(auth_dep.oauth2_scheme)],
+    dependencies=[Depends(oauth2_scheme)],
     tags=["articles"]
 )
 
