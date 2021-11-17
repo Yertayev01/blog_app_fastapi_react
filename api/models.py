@@ -23,7 +23,7 @@ class User(Base):
 
 
 class Article(Base):
-    __tablename__ = "items"
+    __tablename__ = "articles"
 
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String, index=True)
@@ -31,3 +31,10 @@ class Article(Base):
     author_id = Column(Integer, ForeignKey("users.id"))
 
     author = relationship("User", back_populates="articles")
+    likes = relationship("Like")
+
+class Like(Base):
+    __tablename__ = "likes"
+
+    article_id = Column(ForeignKey("articles.id"), primary_key=True)
+    user_id = Column(ForeignKey("users.id"), primary_key=True)

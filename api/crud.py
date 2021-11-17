@@ -25,9 +25,19 @@ def create_user(db: Session, user: schemas.UserCreate):
 def get_articles(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Article).offset(skip).limit(limit).all()
 
+def get_article(db: Session, article_id: int):
+    return db.query(models.Article).filter(models.Article.id == article_id).first()
+
 def create_article(db: Session, article: schemas.ArticleCreate, user_id: int):
     db_article = models.Article(**article.dict(), author_id=user_id)
     db.add(db_article)
     db.commit()
     db.refresh(db_article)
     return db_article
+
+def like_article(db: Session, article_id: int, user_id: int):
+    db_like = models.Like(article_id=article_id, user_id=user_id)
+    db.add(db_like)
+    db.commit()
+    db.refresh(db_like)
+    return db_like

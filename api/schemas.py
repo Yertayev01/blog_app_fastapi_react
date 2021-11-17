@@ -8,6 +8,17 @@ class Token(BaseModel):
 class TokenData(BaseModel):
     username: Optional[str] = None
 
+class LikeBase(BaseModel):
+    user_id: int
+
+class LikeCreate(LikeBase):
+    article_id: int
+
+class Like(LikeBase):
+    
+    class Config:
+        orm_mode = True
+
 class ArticleBase(BaseModel):
     title: str
     content: str
@@ -18,6 +29,7 @@ class ArticleCreate(ArticleBase):
 class Article(ArticleBase):
     id: int
     author_id: int
+    likes: List[Like] = []
 
     class Config:
         orm_mode = True

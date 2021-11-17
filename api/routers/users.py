@@ -33,7 +33,3 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
 def create_article(user_id: int, article: schemas.ArticleCreate, db: Session = Depends(get_db)):
     return crud.create_article(db, article=article, user_id=user_id)
 
-
-@router.post("/{user_id}/articles/", response_model=schemas.Article)
-def create_article(user_id: int, article: schemas.ArticleCreate, db: Session = Depends(get_db)):
-    return crud.create_article(db, article=article, user_id=user_id)
