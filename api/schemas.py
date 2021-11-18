@@ -8,16 +8,28 @@ class Token(BaseModel):
 class TokenData(BaseModel):
     username: Optional[str] = None
 
-class ItemBase(BaseModel):
-    title: str
-    description: Optional[str] = None
+class LikeBase(BaseModel):
+    user_id: int
 
-class ItemCreate(ItemBase):
+class LikeCreate(LikeBase):
+    article_id: int
+
+class Like(LikeBase):
+    
+    class Config:
+        orm_mode = True
+
+class ArticleBase(BaseModel):
+    title: str
+    content: str
+
+class ArticleCreate(ArticleBase):
     pass
 
-class Item(ItemBase):
+class Article(ArticleBase):
     id: int
-    owner_id: int
+    author_id: int
+    likes: List[Like] = []
 
     class Config:
         orm_mode = True
@@ -30,8 +42,9 @@ class UserCreate(UserBase):
 
 class User(UserBase):
     id: int
+    description: Optional[str] = None
     is_active: bool
-    items: List[Item] = []
+    articles: List[Article] = []
 
     class Config:
         orm_mode = True

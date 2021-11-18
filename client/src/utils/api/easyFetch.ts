@@ -13,7 +13,7 @@ class EasyFetch {
   readonly default: initType;
 
   constructor() {
-    this.urlBase = process.env.REACT_APP_API_BASE_URL;
+    this.urlBase = "http://localhost:8000";
     this.default = {
       method: "GET",
       headers: {

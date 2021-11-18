@@ -33,8 +33,8 @@ const Login = () => {
     const handleData = (data: accessToken) => {
       setToken(data);
       const from = location.state?.from?.pathname || "/home";
-      navigate(from, { replace: true });
       setLoading(false);
+      navigate(from, { replace: true });
     };
     const handleError = (error: loginError) => {
       if (error.detail) {

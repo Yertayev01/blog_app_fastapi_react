@@ -16,18 +16,25 @@ class User(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String, unique=True)
+    description = Column(String)
     hashed_password = Column(String)
     is_active = Column(Boolean, default=True)
+    articles = relationship("Article", back_populates="author")
 
-    items = relationship("Item", back_populates="owner")
 
-
-class Item(Base):
-    __tablename__ = "items"
+class Article(Base):
+    __tablename__ = "articles"
 
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String, index=True)
-    description = Column(String, index=True)
-    owner_id = Column(Integer, ForeignKey("users.id"))
+    content = Column(String, index=True)
+    author_id = Column(Integer, ForeignKey("users.id"))
 
-    owner = relationship("User", back_populates="items")
+    author = relationship("User", back_populates="articles")
+    likes = relationship("Like")
+
+class Like(Base):
+    __tablename__ = "likes"
+
+    article_id = Column(ForeignKey("articles.id"), primary_key=True)
+    user_id = Column(ForeignKey("users.id"), primary_key=True)
