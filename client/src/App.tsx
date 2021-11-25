@@ -5,6 +5,7 @@ import Login from "./components/Login/Login";
 import UserList from "./components/Dashboard/UserList";
 import { RequireAuth } from "./components/Auth/RequireAuth";
 import { AuthProvider } from "./components/Auth/AuthContext";
+import Signup from "./components/Signup/Signup";
 
 function App() {
   useEffect(() => {}, []);
@@ -17,6 +18,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
           <Route
             path="/home"
             element={<RequireAuth children={<UserList />} />}

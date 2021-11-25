@@ -23,7 +23,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
         >
           <div
             ref={modalRef}
-            className="h-1/3 w-4/5 flex justify-center items-center border rounded-lg bg-green-50 relative text-lg p-3"
+            className="h-1/3 w-4/5 lg:w-1/2 flex justify-center items-center border rounded-lg bg-green-50 relative text-lg p-3"
           >
             <button
               className="h-10 w-10 bg-white absolute top-0 right-0 rounded-md filter drop-shadow-sm"

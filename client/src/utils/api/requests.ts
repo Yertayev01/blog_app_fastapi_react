@@ -1,20 +1,25 @@
-import { handleData, handleError, user } from "../../types";
-import { getToken } from "../auth";
+import { onSuccess, onFailure, userType } from "../../types";
+import { getToken, setToken } from "../auth";
 import { easyFetch } from "./easyFetch";
 
-type fetchCall = (handleData: handleData, handleError: handleError) => any;
+type fetchCallType = (onSuccess?: onSuccess, onFailure?: onFailure) => any;
+type userFetchType = (
+  body: userType,
+  onSuccess?: onSuccess,
+  onFailure?: onFailure
+) => any;
 
-export const getUsers: fetchCall = async (handleData, handleError) => {
+export const getUsers: fetchCallType = async (onSuccess, onFailure) => {
   try {
     const data = await easyFetch.get("/users");
-    handleData(data);
+    onSuccess?.(data);
     return data;
   } catch (error) {
-    handleError(error);
+    onFailure?.(error);
   }
 };
 
-export const fetchCurrentUser: fetchCall = async (handleData, handleError) => {
+export const fetchCurrentUser: fetchCallType = async (onSuccess, onFailure) => {
   const access_token = getToken();
 
   try {
@@ -26,19 +31,13 @@ export const fetchCurrentUser: fetchCall = async (handleData, handleError) => {
         Authorization: `Bearer ${access_token}`,
       },
     });
-    handleData(data);
+    onSuccess?.(data);
   } catch (error) {
-    handleError(error);
+    onFailure?.(error);
   }
 };
 
-type loginFetch = (
-  body: user,
-  handleData: handleData,
-  handleError: handleError
-) => any;
-
-export const loginUser: loginFetch = async (body, handleData, handleError) => {
+export const loginUser: userFetchType = async (body, onSuccess, onFailure) => {
   const formData = `username=${body.username}&password=${body.password}`;
   try {
     const data = await easyFetch.post("/token", formData, {
@@ -47,8 +46,18 @@ export const loginUser: loginFetch = async (body, handleData, handleError) => {
         "Content-type": "application/x-www-form-urlencoded",
       },
     });
-    handleData(data);
+    setToken(data);
+    onSuccess?.(data);
   } catch (error) {
-    handleError(error);
+    onFailure?.(error);
+  }
+};
+
+export const signupUser: userFetchType = async (body, onSuccess, onFailure) => {
+  try {
+    const data = await easyFetch.post("/users", body);
+    onSuccess?.(data);
+  } catch (error) {
+    onFailure?.(error);
   }
 };

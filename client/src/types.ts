@@ -1,8 +1,8 @@
-export type handleData = (data: any) => void;
+export type onSuccess = (data: any) => void;
 
-export type handleError = (error: any) => void;
+export type onFailure = (error: any) => void;
 
-export type user = {
+export type userType = {
   username: string;
   password: string;
 };
