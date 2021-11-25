@@ -1,15 +1,12 @@
 import React, { useRef } from "react";
 import Modal from "../Common/Modal";
 
-type LoginModalProps = {
+type HelpModalProps = {
   modalVisible: boolean;
   closeModal: () => void;
 };
 
-const LoginModal: React.FC<LoginModalProps> = ({
-  modalVisible,
-  closeModal,
-}) => {
+const HelpModal: React.FC<HelpModalProps> = ({ modalVisible, closeModal }) => {
   const modalRef = useRef<HTMLDivElement>(null);
   return (
     <>
@@ -42,4 +39,4 @@ const LoginModal: React.FC<LoginModalProps> = ({
   );
 };
 
-export default LoginModal;
+export default HelpModal;

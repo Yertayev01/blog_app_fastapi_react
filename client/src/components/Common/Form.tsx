@@ -1,4 +1,5 @@
-import React, { FormEvent, useMemo } from "react";
+import React, { FormEvent, useEffect, useMemo, useState } from "react";
+import { ErrorMessage } from "./ErrorMessage";
 import Input, { InputProps } from "./Input";
 
 export type formErrorType = {
@@ -12,6 +13,8 @@ type FormType = {
   loading: boolean;
   className?: string;
   error?: formErrorType;
+  header?: JSX.Element;
+  footer?: JSX.Element;
 };
 
 const Form: React.FC<FormType> = ({
@@ -21,8 +24,19 @@ const Form: React.FC<FormType> = ({
   onSubmit,
   loading,
   error,
-  children,
+  header,
+  footer,
 }) => {
+  const renderHeader = useMemo(() => {
+    return <>{header}</>;
+  }, [header]);
+
+  const [formValidError, setFormValidError] = useState(false);
+
+  useEffect(() => {
+    setFormValidError(!!error?.detail);
+  }, [error]);
+
   const renderInputs = useMemo(
     () =>
       inputs.map((input) => {
@@ -55,26 +69,32 @@ const Form: React.FC<FormType> = ({
 
   const renderError = useMemo(() => {
     return (
-      <>
-        {error?.detail && (
-          <span className="bottom-2 border-l border-t border-red-200 lg:bottom-10 bg-yellow-100 py-1 px-2 rounded text-red-700 m2-62 text-sm absolute shadow">
-            {error.detail}
-          </span>
-        )}
-      </>
+      <ErrorMessage
+        display={formValidError}
+        error={error}
+        setDisplay={setFormValidError}
+        className={
+          "bottom-6 border-l border-t lg:bottom-16 py-1 px-2 animate-fade-in-down-1/4s text-sm"
+        }
+      />
     );
-  }, [error]);
+  }, [formValidError, error]);
+
+  const renderFooter = useMemo(() => {
+    return <>{footer}</>;
+  }, [footer]);
 
   if (!className)
     className =
-      "relative border-l border-t border-green-400 border-opacity-40 rounded-lg px-16 py-12 lg:px-32 lg:py-24 flex flex-col items-center justify-center shadow-md";
+      "relative border-l border-t border-green-400 border-opacity-40 rounded-lg px-28 py-20 lg:px-36 lg:py-28 flex flex-col items-center justify-center shadow-md animate-fade-in-down-1/2s";
 
   return (
     <form className={className} onSubmit={onSubmit}>
+      {renderHeader}
       {renderInputs}
       {renderButton}
       {renderError}
-      {children}
+      {renderFooter}
     </form>
   );
 };

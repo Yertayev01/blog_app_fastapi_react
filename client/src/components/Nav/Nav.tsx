@@ -1,6 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { NavLinksType } from "../../types";
+import { isAuthenticated } from "../../utils/auth";
 import { useAuth } from "../Auth/AuthContext";
 import Menu from "./Menu";
 import MobileNav from "./Mobile/MobileNav";
@@ -11,7 +12,7 @@ const Nav = () => {
   const navLinks: NavLinksType = (className, onClick = () => {}) => {
     const items = ["Home", "About", "Profile", "Login"];
     return items.map((item) => {
-      if (auth.user && item === "Login") {
+      if (isAuthenticated() && item === "Login") {
         const signOutAndClose = () => {
           auth.signout();
           onClick();
@@ -46,14 +47,12 @@ const Nav = () => {
   };
 
   return (
-    <nav className="fixed top-0 w-screen bg-green-500 h-20 flex items-center shadow-lg z-50">
+    <nav className="fixed top-0 w-screen bg-green-500 h-20  lg:h-16 flex items-center shadow-lg z-50">
       <div className="px-4 text-white text-2xl">wethinky</div>
       <div className="flex flex-grow justify-end items-center h-full">
         <MobileNav className={"lg:hidden"} navLinks={navLinks} />
         <Menu
-          className={
-            "hidden lg:block lg:flex justify-around items-center w-3/4"
-          }
+          className={"hidden lg:flex justify-around items-center w-4/6"}
           navLinks={navLinks}
         />
       </div>

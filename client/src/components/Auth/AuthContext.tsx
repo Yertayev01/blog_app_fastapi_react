@@ -1,4 +1,10 @@
-import React, { useState, createContext, useContext } from "react";
+import React, {
+  useState,
+  createContext,
+  useContext,
+  SetStateAction,
+  Dispatch,
+} from "react";
 import { useNavigate } from "react-router-dom";
 import { onSuccess, onFailure, userType } from "../../types";
 import {
@@ -10,15 +16,18 @@ import { removeToken } from "../../utils/auth";
 
 type AuthContextType = {
   user: any;
+  unAuthAttempt: boolean;
   signup: (user: userType, onSuccess: onSuccess, onFailure: onFailure) => void;
   signin: (user: userType, onSuccess: onSuccess, onFailure: onFailure) => void;
   signout: () => void;
+  setUnAuthAttempt: Dispatch<SetStateAction<boolean>>;
 };
 
 const AuthContext = createContext<AuthContextType>(null!);
 
 export const AuthProvider: React.FC = ({ children }) => {
   const [savedUser, setSavedUser] = useState(null);
+  const [unAuthAttempt, setUnAuthAttempt] = useState(false);
   const navigate = useNavigate();
 
   const signup = async (
@@ -43,11 +52,14 @@ export const AuthProvider: React.FC = ({ children }) => {
   ) => {
     await loginUser(user, onSuccess, onFailure);
     await fetchCurrentUser(
-      (userType) => setSavedUser({ ...userType }),
+      (userType) => {
+        setSavedUser({ ...userType });
+      },
       (error) => {
         console.error(error);
       }
     );
+    setUnAuthAttempt(false);
   };
 
   const signout = () => {
@@ -56,7 +68,14 @@ export const AuthProvider: React.FC = ({ children }) => {
     navigate("/");
   };
 
-  const value = { user: savedUser, signup, signin, signout };
+  const value = {
+    user: savedUser,
+    signup,
+    signin,
+    signout,
+    unAuthAttempt,
+    setUnAuthAttempt,
+  };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
