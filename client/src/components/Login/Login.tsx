@@ -28,8 +28,10 @@ const Login = () => {
 
     const handleData = () => {
       const from = location.state?.from?.pathname || "/home";
-      setLoading(false);
-      navigate(from, { replace: true });
+      setTimeout(() => {
+        setLoading(false);
+        navigate(from, { replace: true });
+      }, 1000);
     };
     const handleError = (error: formErrorType) => {
       if (error.detail) {
@@ -57,9 +59,22 @@ const Login = () => {
   ];
 
   const header = (
-    <h4 className="absolute top-0 left-0 px-4 pt-4 pb-2 text-green-700 border-b ml-2 text-lg">
-      Login
-    </h4>
+    <>
+      <h4 className="absolute top-0 left-0 px-4 pt-4 pb-2 text-green-700 border-b ml-2 text-lg">
+        Login
+      </h4>
+      {auth.unAuthAttempt && (
+        <ErrorMessage
+          display={auth.unAuthAttempt}
+          setDisplay={auth.setUnAuthAttempt}
+          error={{ detail: "Must be logged in" }}
+          overrideClasses
+          className={
+            "top-6 absolute text-red-500 bg-gray-50 shadow-sm cursor-pointer rounded py-1 px-4"
+          }
+        />
+      )}
+    </>
   );
 
   const footer = (
@@ -81,16 +96,6 @@ const Login = () => {
 
   return (
     <div className="flex items-center flex-col p-6 justify-center">
-      {auth.unAuthAttempt && (
-        <ErrorMessage
-          display={auth.unAuthAttempt}
-          setDisplay={auth.setUnAuthAttempt}
-          error={{ detail: "Must log in to access" }}
-          className={
-            "border-l border-t top-1/3 py-16 px-10 animate-fade-in-down-1/4s text-lg"
-          }
-        />
-      )}
       <Form
         onSubmit={onSubmit}
         inputs={inputs}

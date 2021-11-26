@@ -52,7 +52,7 @@ const Nav = () => {
       <div className="flex flex-grow justify-end items-center h-full">
         <MobileNav className={"lg:hidden"} navLinks={navLinks} />
         <Menu
-          className={"hidden lg:flex justify-around items-center w-4/6"}
+          className={"hidden lg:flex justify-around items-center w-1/2"}
           navLinks={navLinks}
         />
       </div>

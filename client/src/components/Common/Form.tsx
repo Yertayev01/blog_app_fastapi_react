@@ -55,14 +55,17 @@ const Form: React.FC<FormType> = ({
   );
 
   if (!button?.className) {
-    button.className =
-      "border p-1 w-24 rounded-md mt-2 bg-green-500 text-white shadow active:bg-green-700 active:shadow-none";
+    button.className = `${"border p-1 w-24 rounded-md mt-2 bg-green-500 text-white shadow active:bg-green-700 active:shadow-none"} 
+        ${loading && "animate-spin shadow-none bg-blue-400 border-blue-200"}
+      `;
   }
 
   const renderButton = useMemo(() => {
     return (
-      <button className={button.className}>
-        {loading ? "..." : button.value}
+      <button
+        className={`${button.className} ${loading ? "animate-spin" : ""}`}
+      >
+        {button.value}
       </button>
     );
   }, [button, loading]);
