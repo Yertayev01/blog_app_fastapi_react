@@ -3,40 +3,42 @@
 Full-Stack blog application made using React/TypeScript for the frontend and Python/FastAPI for the backend. Built for fun and to try out some new technologies.
 
 ## Stack
+
 **Front:**
+
 - React
 - TypeScript/JavaScript
 - TailwindCSS
 - React Testing Library
 
 **Back:**
+
 - Python
 - FastAPI
 - PostgreSQL
 - Oauth2
 
 **Both:**
+
 - Docker
 
 ## How to See Application:
+
 - make sure you have Docker installed
 - clone repo and navigate to root directory
 - run `docker compose up`
-- open new terminal and run `docker compose run api alembic revision --autogenerate -m "initial_migration"`
-- then run `docker compose run api alembic upgrade head`
-- to see the frontend navigate to `localhost:3000/` 
+- to see the frontend navigate to `localhost:3000/`
 - to see the backend documentation navigate to `localhost:8000/docs`
 - to spin the application down, navigate to terminal where you ran `docker compose up` and hit Ctrl+C
 
 **Once you have see enough and want to remove from machine:**
+
 - run `docker compose down --volumes` to delete the containers and their volumes
 - delete the cloned github repository from machine
 
-
-
 ## Extra Project Information:
 
-&emsp;&emsp; Started building this because I wanted to try out building a backend API with Python. I was having fun so I kept going and 
+&emsp;&emsp; Started building this because I wanted to try out building a backend API with Python. I was having fun so I kept going and
 figured I might as well make a front end and try out TailwindCSS and Typescript while i was at it. I then thought it would be great to not have to
 spin up a Database, API, and React app all seperately. So I looked up solutions and decided that Docker was a great choice, so
 I connected everything using Docker Compose.
@@ -45,12 +47,12 @@ I connected everything using Docker Compose.
 building more projects with them.
 
 ## Plans for Future:
+
 **Front:**
-- Add more routes/pages. Ex: sign up, dashboard, landing page, create post, etc.
+
+- Add more routes/pages. Ex: dashboard, landing page, create post, etc.
 
 **Back:**
+
 - More endpoints to the backend and build out more tables and relationships
-- Setup migrations to run automatically as Docker spins the app up
 - Testing
-
-

@@ -1,46 +1,81 @@
-import React, { useState, createContext, useContext } from "react";
+import React, {
+  useState,
+  createContext,
+  useContext,
+  SetStateAction,
+  Dispatch,
+} from "react";
 import { useNavigate } from "react-router-dom";
-import { handleData, handleError, user } from "../../types";
-import { fetchCurrentUser, loginUser } from "../../utils/api/requests";
+import { onSuccess, onFailure, userType } from "../../types";
+import {
+  fetchCurrentUser,
+  loginUser,
+  signupUser,
+} from "../../utils/api/requests";
 import { removeToken } from "../../utils/auth";
 
 type AuthContextType = {
   user: any;
-  signin: (
-    newUser: user,
-    handleData: handleData,
-    handleError: handleError
-  ) => void;
+  unAuthAttempt: boolean;
+  signup: (user: userType, onSuccess: onSuccess, onFailure: onFailure) => void;
+  signin: (user: userType, onSuccess: onSuccess, onFailure: onFailure) => void;
   signout: () => void;
+  setUnAuthAttempt: Dispatch<SetStateAction<boolean>>;
 };
 
 const AuthContext = createContext<AuthContextType>(null!);
 
 export const AuthProvider: React.FC = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [savedUser, setSavedUser] = useState(null);
+  const [unAuthAttempt, setUnAuthAttempt] = useState(false);
   const navigate = useNavigate();
 
-  const signin = async (
-    newUser: user,
-    handleData: handleData,
-    handleError: handleError
+  const signup = async (
+    user: userType,
+    onSuccess: onSuccess,
+    onFailure: onFailure
   ) => {
-    await loginUser(newUser, handleData, handleError);
+    await signupUser(user, onSuccess, onFailure);
+    await loginUser(user);
     await fetchCurrentUser(
-      (user) => setUser({ ...user }),
+      (userType) => setSavedUser({ ...userType }),
       (error) => {
         console.error(error);
       }
     );
   };
 
+  const signin = async (
+    user: userType,
+    onSuccess: onSuccess,
+    onFailure: onFailure
+  ) => {
+    await loginUser(user, onSuccess, onFailure);
+    await fetchCurrentUser(
+      (userType) => {
+        setSavedUser({ ...userType });
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+    setUnAuthAttempt(false);
+  };
+
   const signout = () => {
-    setUser(null);
+    setSavedUser(null);
     removeToken();
     navigate("/");
   };
 
-  const value = { user, signin, signout };
+  const value = {
+    user: savedUser,
+    signup,
+    signin,
+    signout,
+    unAuthAttempt,
+    setUnAuthAttempt,
+  };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

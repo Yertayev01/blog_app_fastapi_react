@@ -15,24 +15,24 @@ const UserList = () => {
       {users.map((user) => {
         return (
           <div
-            key={user.email}
+            key={user.username}
             className="bg-green-50 rounded-md border-l-2 shadow text-green-700 p-10 px-10 lg:h-80 lg:w-80"
           >
             <p>
               id: <span className="text-indigo-300">{user.id}</span>
             </p>
             <p>
-              email: <span className="text-indigo-300">{user.email}</span>
+              email: <span className="text-indigo-300">{user.username}</span>
             </p>
-            {user.items && (
+            {user.articles && (
               <>
                 <h4>items:</h4>
                 <div className="bg-white border divide-y-2 pr-2 divide-green-150 mt-2 rounded flex flex-col h-40 overflow-auto">
-                  {user.items.map((item) => {
+                  {user.articles.map((article) => {
                     return (
                       <div className="bg-white rounded-lg p-4 text-sm">
-                        <h4>title: {item.title}</h4>
-                        <p>description: {item.description}</p>
+                        <h4>title: {article.title}</h4>
+                        <p>{article.content}</p>
                       </div>
                     );
                   })}
