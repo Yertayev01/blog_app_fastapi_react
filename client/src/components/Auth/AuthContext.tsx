@@ -4,15 +4,16 @@ import React, {
   useContext,
   SetStateAction,
   Dispatch,
-} from "react";
-import { useNavigate } from "react-router-dom";
-import { onSuccess, onFailure, userType } from "../../types";
+  useEffect,
+} from 'react';
+import { useNavigate } from 'react-router-dom';
+import { onSuccess, onFailure, userType } from '../../types';
 import {
   fetchCurrentUser,
   loginUser,
   signupUser,
-} from "../../utils/api/requests";
-import { removeToken } from "../../utils/auth";
+} from '../../utils/api/requests';
+import { removeToken } from '../../utils/auth';
 
 type AuthContextType = {
   user: any;
@@ -29,6 +30,12 @@ export const AuthProvider: React.FC = ({ children }) => {
   const [savedUser, setSavedUser] = useState(null);
   const [unAuthAttempt, setUnAuthAttempt] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (savedUser) return;
+
+    fetchCurrentUser((user) => setSavedUser(user));
+  });
 
   const signup = async (
     user: userType,
@@ -65,7 +72,7 @@ export const AuthProvider: React.FC = ({ children }) => {
   const signout = () => {
     setSavedUser(null);
     removeToken();
-    navigate("/");
+    navigate('/');
   };
 
   const value = {

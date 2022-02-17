@@ -1,6 +1,6 @@
-import { onSuccess, onFailure, userType } from "../../types";
-import { getToken, setToken } from "../auth";
-import { easyFetch } from "./easyFetch";
+import { onSuccess, onFailure, userType, articleType } from '../../types';
+import { getToken, setToken } from '../auth';
+import { easyFetch } from './easyFetch';
 
 type fetchCallType = (onSuccess?: onSuccess, onFailure?: onFailure) => any;
 type userFetchType = (
@@ -9,9 +9,31 @@ type userFetchType = (
   onFailure?: onFailure
 ) => any;
 
+type postArticleType = (
+  id: number,
+  body: articleType,
+  onSuccess?: onSuccess,
+  onFailure?: onFailure
+) => any;
+
 export const getUsers: fetchCallType = async (onSuccess, onFailure) => {
   try {
-    const data = await easyFetch.get("/users");
+    const data = await easyFetch.get('/users');
+    onSuccess?.(data);
+    return data;
+  } catch (error) {
+    onFailure?.(error);
+  }
+};
+
+export const getArticles: fetchCallType = async (onSuccess, onFailure) => {
+  const access_token = getToken();
+  try {
+    const data = await easyFetch.get('/articles', {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+      },
+    });
     onSuccess?.(data);
     return data;
   } catch (error) {
@@ -26,7 +48,7 @@ export const fetchCurrentUser: fetchCallType = async (onSuccess, onFailure) => {
     if (!access_token) {
       return;
     }
-    const data = await easyFetch.get("/token/user", {
+    const data = await easyFetch.get('/token/user', {
       headers: {
         Authorization: `Bearer ${access_token}`,
       },
@@ -40,10 +62,10 @@ export const fetchCurrentUser: fetchCallType = async (onSuccess, onFailure) => {
 export const loginUser: userFetchType = async (body, onSuccess, onFailure) => {
   const formData = `username=${body.username}&password=${body.password}`;
   try {
-    const data = await easyFetch.post("/token", formData, {
-      method: "POST",
+    const data = await easyFetch.post('/token', formData, {
+      method: 'POST',
       headers: {
-        "Content-type": "application/x-www-form-urlencoded",
+        'Content-type': 'application/x-www-form-urlencoded',
       },
     });
     setToken(data);
@@ -55,8 +77,23 @@ export const loginUser: userFetchType = async (body, onSuccess, onFailure) => {
 
 export const signupUser: userFetchType = async (body, onSuccess, onFailure) => {
   try {
-    const data = await easyFetch.post("/users", body);
+    const data = await easyFetch.post('/users', body);
     onSuccess?.(data);
+  } catch (error) {
+    onFailure?.(error);
+  }
+};
+
+export const postArticle: postArticleType = async (
+  id,
+  body,
+  onSuccess,
+  onFailure
+) => {
+  try {
+    const data = await easyFetch.post(`/users/${id}/articles`, body);
+    onSuccess?.(data);
+    return data;
   } catch (error) {
     onFailure?.(error);
   }
