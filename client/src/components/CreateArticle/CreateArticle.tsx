@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { articleType } from '../../types';
+import { newArticleType } from '../../types';
+import Markdown from '../Common/Markdown';
 
 type CreateArticleProps = {
-  handleArticleSubmit: (article: articleType) => void;
+  handleArticleSubmit: (article: newArticleType) => void;
 };
 
 const articleInitialState = { title: '', content: '' };
@@ -27,23 +28,26 @@ const CreateArticle: React.FC<CreateArticleProps> = ({
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="w-4/5 mx-auto p-8 border flex flex-col gap-4"
-    >
-      <h3>What do you want to say?</h3>
-      <textarea
-        name="content"
-        value={article.content}
-        onChange={handleOnChange}
-        className="border w-full h-56 p-4"
-      />
-      <div className="flex justify-center">
-        <button className="border bg-gray-200 text-white rounded-xl py-1 px-3">
-          Submit
-        </button>
-      </div>
-    </form>
+    <>
+      <form
+        onSubmit={handleSubmit}
+        className="w-4/5 mx-auto p-8 border flex flex-col gap-4"
+      >
+        <h3>What do you want to say?</h3>
+        <textarea
+          name="content"
+          value={article.content}
+          onChange={handleOnChange}
+          className="border w-full h-56 p-4"
+        />
+        <div className="flex justify-center">
+          <button className="border bg-gray-200 text-white rounded-xl py-1 px-3">
+            Submit
+          </button>
+        </div>
+      </form>
+      <Markdown markdown={article.content} />
+    </>
   );
 };
 

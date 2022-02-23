@@ -3,12 +3,8 @@ import { getArticles } from '../../utils/api/requests';
 import CreateArticle from '../CreateArticle/CreateArticle';
 import { postArticle } from '../../utils/api/requests';
 import { useAuth } from '../Auth/AuthContext';
-
-type articleType = {
-  id?: number;
-  title: string;
-  content: string;
-};
+import Article from './Article';
+import { articleType, newArticleType } from '../../types';
 
 const Feed = () => {
   const [articles, setArticles] = useState<articleType[]>([]);
@@ -21,7 +17,7 @@ const Feed = () => {
     if (!loading) getArticles(hData, hError);
   }, [loading]);
 
-  const handleArticleSubmit = (article: articleType) => {
+  const handleArticleSubmit = (article: newArticleType) => {
     setLoading(true);
     postArticle(
       auth.user.id,
@@ -36,27 +32,9 @@ const Feed = () => {
       <CreateArticle handleArticleSubmit={handleArticleSubmit} />
 
       {articles
-        .sort((a: articleType, b: articleType) =>
-          a.id && b.id ? b.id - a.id : 0
-        )
+        .sort((a: articleType, b: articleType) => b.id - a.id)
         .map((article) => {
-          return (
-            <div
-              key={article.id}
-              className="bg-green-50 shadow text-green-700 p-10 px-10 w-4/5 mx-auto"
-            >
-              <div className="flex justify-between">
-                <p>
-                  <span className="text-indigo-300 text-xl">
-                    {article.title}
-                  </span>
-                </p>
-              </div>
-              <div className="bg-white rounded-lg p-4 text-sm">
-                <p>{article.content}</p>
-              </div>
-            </div>
-          );
+          return <Article key={article.id} article={article} />;
         })}
     </div>
   );

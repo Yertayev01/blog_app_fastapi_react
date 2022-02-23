@@ -1,4 +1,4 @@
-import { onSuccess, onFailure, userType, articleType } from '../../types';
+import { onSuccess, onFailure, userType, newArticleType } from '../../types';
 import { getToken, setToken } from '../auth';
 import { easyFetch } from './easyFetch';
 
@@ -11,7 +11,13 @@ type userFetchType = (
 
 type postArticleType = (
   id: number,
-  body: articleType,
+  body: newArticleType,
+  onSuccess?: onSuccess,
+  onFailure?: onFailure
+) => any;
+
+type likeArticleType = (
+  id: number,
   onSuccess?: onSuccess,
   onFailure?: onFailure
 ) => any;
@@ -92,6 +98,31 @@ export const postArticle: postArticleType = async (
 ) => {
   try {
     const data = await easyFetch.post(`/users/${id}/articles`, body);
+    onSuccess?.(data);
+    return data;
+  } catch (error) {
+    onFailure?.(error);
+  }
+};
+
+export const likeArticle: likeArticleType = async (
+  id,
+  onSuccess,
+  onFailure
+) => {
+  try {
+    const access_token = getToken();
+
+    const data = await easyFetch.post(
+      `/articles/${id}/like`,
+      { content: '' },
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      }
+    );
     onSuccess?.(data);
     return data;
   } catch (error) {

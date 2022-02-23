@@ -8,7 +8,14 @@ export type userType = {
 };
 
 export type articleType = {
-  id?: number;
+  id: number;
+  title: string;
+  content: string;
+  likes: { user_id: number }[];
+  author: number;
+};
+
+export type newArticleType = {
   title: string;
   content: string;
 };
