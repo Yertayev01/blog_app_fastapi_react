@@ -22,32 +22,40 @@ const heartIcon = (
 );
 
 const Article = ({ article }: { article: articleType }) => {
+  const [isLiked, setIsLiked] = useState(false);
+  const [numOfLikes, setNumOfLikes] = useState(0);
   const { user } = useAuth();
+
+  useEffect(() => {
+    const userLiked = article.likes.map((a) => a.user_id).includes(user.id);
+    if (userLiked) setIsLiked(true);
+    setNumOfLikes(article.likes.length);
+  }, [article.likes, user.id]);
 
   const toggleLike = () => {
     likeArticle(
       article.id,
-      (d) => console.log(d),
+      (d) => {
+        if (!isLiked) setNumOfLikes((prevNum) => prevNum + 1);
+        setIsLiked(true);
+      },
       (e) => console.log(e)
     );
   };
 
   return (
     <div className="w-4/5 mx-auto p-8 pt-16 border relative flex flex-col">
-      <div className="border absolute top-0 left-0 w-full h-16">
+      <div className="border absolute top-0 left-0 flex items-center w-full h-16 px-4">
+        <h1 className="text-2xl">Title of Article</h1>
         <div className="absolute top-3 right-3">
           <span className="flex gap-1 items-center text-sm text-gray-500">
             <span
-              className={`cursor-pointer ${
-                article.likes.map((a) => a.user_id).includes(user.id)
-                  ? 'text-red-400'
-                  : ''
-              }`}
+              className={`cursor-pointer ${isLiked ? 'text-red-400' : ''}`}
               onClick={toggleLike}
             >
               {heartIcon}
             </span>
-            {article.likes.length}
+            {numOfLikes}
           </span>
         </div>
       </div>
