@@ -11,6 +11,7 @@ import Dashboard from './components/Dashboard/Dashboard';
 function App() {
   useEffect(() => {}, []);
 
+
   return (
     <AuthProvider>
       <div className="font-sans	min-h-screen flex flex-col justify-center">
@@ -20,8 +21,8 @@ function App() {
           <Route path="/" element={<Login />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/home" element={<RequireAuth children={<Feed />} />} />
-          <Route path="/about" element={<div>about</div>} />
+          <Route path="/feed" element={<RequireAuth children={<Feed />} />} />
+          <Route path="/posting" element={<div>posting</div>} />
           <Route
             path="/profile"
             element={<RequireAuth children={<Dashboard />} />}

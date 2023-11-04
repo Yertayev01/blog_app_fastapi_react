@@ -2,44 +2,39 @@ version: "3.8"
 
 services:
   db:
-    container_name: postgresql_db
-    image: postgres
+    container_name: mariadb_db
+    image: mariadb
     restart: always
     ports:
-      - 5432:5432
+      - 3306:3306
     environment:
-      - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
-      - POSTGRES_DB=${DB_NAME}
-
-  pgadmin:
-    container_name: pgadmin
-    image: dpage/pgadmin4
-    environment:
-      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_EMAIL}
-      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_PASSWORD}
-    ports:
-      - 5050:80
-    depends_on:
-      - db
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
 
   api:
     container_name: api
     build: ./api
-    command: bash -c "alembic upgrade head && cd ..  && uvicorn api.main:app --host 0.0.0.0 --port 8000 --reload"
+    command: bash -c "cd ..  && uvicorn api.main:app --host 0.0.0.0 --port 8000 --reload"
     volumes:
       - ./api:/api
+    restart: always
     ports:
       - 8000:8000
-    depends_on:
-      - db
-    restart: always
     environment:
       - DATABASE_URL
+      - DB_ROOT_PASSWORD
+      - DB_USER
+      - DB_PASSWORD
+      - DB_NAME
+      - REACT_APP_API_BASE_URL
       - SECRET_KEY
       - ALGORITHM
       - ACCESS_TOKEN_EXPIRE_MINUTES
       - CLIENT_URL
+    depends_on:
+      - db
 
   client:
     container_name: client
@@ -47,6 +42,7 @@ services:
     command: bash -c "npm run start"
     volumes:
       - ./client:/client
+      - node-modules:/client/node_modules
     ports:
       - 3000:3000
     depends_on:
@@ -54,3 +50,6 @@ services:
     restart: always
     environment:
       - REACT_APP_API_BASE_URL
+
+volumes:
+  node-modules:

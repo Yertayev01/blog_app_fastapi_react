@@ -1,2 +1,5 @@
-# Uncomment if you set sensitive env variables
-# .env
+venv
+.env
+node_modules
+dependencies
+_pycache

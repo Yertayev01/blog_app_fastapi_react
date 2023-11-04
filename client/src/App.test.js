@@ -14,11 +14,11 @@ beforeEach(() => {
 });
 
 test("renders Nav", () => {
-  const logoElement = screen.getByText(/wethinky/i);
-  const homeNavLink = screen.getByText(/Home/i);
+  const logoElement = screen.getByText(/BLOG/i);
+  const feedNavLink = screen.getByText(/feed/i);
 
   expect(logoElement).toBeInTheDocument();
-  expect(homeNavLink).toBeInTheDocument();
+  expect(feedNavLink).toBeInTheDocument();
 });
 
 test("renders Login", () => {

@@ -35,6 +35,12 @@ const CreateArticle: React.FC<CreateArticleProps> = ({
       >
         <h3>What do you want to say?</h3>
         <textarea
+          name="title"
+          value={article.title}
+          onChange={handleOnChange}
+          className="border w-full h-56 p-4"
+        />
+        <textarea
           name="content"
           value={article.content}
           onChange={handleOnChange}

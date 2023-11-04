@@ -1,5 +1,5 @@
 from typing import List, Optional
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 class Token(BaseModel):
     access_token: str
@@ -35,7 +35,7 @@ class Article(ArticleBase):
         orm_mode = True
 
 class UserBase(BaseModel):
-    username: str
+    username: str 
 
 class UserCreate(UserBase):
     password: str

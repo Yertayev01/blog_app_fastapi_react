@@ -1,6 +1,7 @@
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
+from pydantic import Field, BaseModel
 
 Base = declarative_base()
 
@@ -11,23 +12,25 @@ Base = declarative_base()
 # Downgrade with:
 # docker compose run api alembic downgrade head
 
+
 class User(Base):
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, index=True)
-    username = Column(String, unique=True)
-    description = Column(String)
-    hashed_password = Column(String)
+    username = Column(String(100), unique=True, index=True, nullable=False)     
+    description = Column(String(100))
+    hashed_password = Column(String(100))
     is_active = Column(Boolean, default=True)
     articles = relationship("Article", back_populates="author")
+
 
 
 class Article(Base):
     __tablename__ = "articles"
 
     id = Column(Integer, primary_key=True, index=True)
-    title = Column(String, index=True)
-    content = Column(String, index=True)
+    title = Column(String(100), index=True)
+    content = Column(String(100), index=True)
     author_id = Column(Integer, ForeignKey("users.id"))
 
     author = relationship("User", back_populates="articles")

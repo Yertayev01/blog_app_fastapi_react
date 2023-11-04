@@ -46,7 +46,7 @@ const Article = ({ article }: { article: articleType }) => {
   return (
     <div className="w-4/5 mx-auto p-8 pt-16 border relative flex flex-col">
       <div className="border absolute top-0 left-0 flex items-center w-full h-16 px-4">
-        <h1 className="text-2xl">Title of Article</h1>
+        <h2 className="text-2xl">{article.title}</h2>
         <div className="absolute top-3 right-3">
           <span className="flex gap-1 items-center text-sm text-gray-500">
             <span

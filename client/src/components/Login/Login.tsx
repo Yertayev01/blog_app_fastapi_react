@@ -27,7 +27,7 @@ const Login = () => {
     setLoading(true);
 
     const handleData = () => {
-      const from = location.state?.from?.pathname || "/home";
+      const from = location.state?.from?.pathname || "/feed";
       setTimeout(() => {
         setLoading(false);
         navigate(from, { replace: true });

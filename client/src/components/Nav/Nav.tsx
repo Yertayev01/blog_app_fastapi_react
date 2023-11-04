@@ -10,7 +10,7 @@ const Nav = () => {
   const auth = useAuth();
 
   const navLinks: NavLinksType = (className, onClick = () => {}) => {
-    const items = ["Home", "About", "Profile", "Login"];
+    const items = ["Feed", "Posting", "Profile", "Login"];
     return items.map((item) => {
       if (isAuthenticated() && item === "Login") {
         const signOutAndClose = () => {
@@ -48,7 +48,7 @@ const Nav = () => {
 
   return (
     <nav className="fixed top-0 w-screen bg-green-500 h-20  lg:h-16 flex items-center shadow-lg z-50">
-      <div className="px-4 text-white text-2xl">wethinky</div>
+      <div className="px-4 text-white text-2xl">BLOG</div>
       <div className="flex flex-grow justify-end items-center h-full">
         <MobileNav className={"lg:hidden"} navLinks={navLinks} />
         <Menu
